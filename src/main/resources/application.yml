@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    auto-mapping-behavior: partial
+    map-underscore-to-camel-case: true
+
+spring:
+  datasource:
+    name: elderSystem
+    url: jdbc:p6spy:mysql://rm-wz9s572nr532d1c376m.mysql.rds.aliyuncs.com:3306/monday?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: user
+    password: AA666666!
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+  redis:
+    host: 47.94.235.35
+    port: 6379
+
+  mail:
+    # 163
+    host: smtp.163.com
+    port:
+    username: xingjie852@163.com
+    password: MRDLHUBNXSZPZHTF
+    protocol: smtp
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.socketFactory.port: 465
+      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+      mail.smtp.socketFactory.fallback: false
