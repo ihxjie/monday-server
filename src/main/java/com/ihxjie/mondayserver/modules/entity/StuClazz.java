@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xjie
- * @since 2021-03-28
+ * @since 2021-04-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -18,14 +18,8 @@ public class StuClazz implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 学生id
-     */
     private Integer studentId;
 
-    /**
-     * 班级id
-     */
     private Integer clazzId;
 
 

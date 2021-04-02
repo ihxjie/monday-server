@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author xjie
- * @since 2021-03-28
+ * @since 2021-04-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -18,9 +18,17 @@ public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer studentId;
+    private Integer stuId;
 
-    private String studentName;
+    private String stuName;
+
+    private String stuTel;
+
+    private String stuEmail;
+
+    private String stuUsername;
+
+    private String stuPassword;
 
 
 }

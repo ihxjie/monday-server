@@ -1,6 +1,6 @@
 package com.ihxjie.mondayserver.modules.mapper;
 
-import com.ihxjie.mondayserver.modules.entity.TeacherClazz;
+import com.ihxjie.mondayserver.modules.entity.Record;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author xjie
  * @since 2021-04-02
  */
-public interface TeacherClazzMapper extends BaseMapper<TeacherClazz> {
+public interface RecordMapper extends BaseMapper<Record> {
 
 }
