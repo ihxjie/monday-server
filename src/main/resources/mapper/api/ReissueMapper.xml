@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ihxjie.mondayserver.api.mapper.ReissueMapper">
+
+    <select id="getReissueByAttendanceId" resultType="com.ihxjie.mondayserver.api.vo.ReissueVo">
+        SELECT u.*, r.reissue_id, r.create_time, r.reason, r.is_agree
+        FROM `reissue` as r, `user` as u
+        WHERE r.user_id = u.user_id AND r.attendance_id = #{attendanceId}
+    </select>
+</mapper>

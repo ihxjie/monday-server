@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ihxjie.mondayserver.api.mapper.RecordMapper">
+
+    <select id="queryStudentByAttendanceId" resultType="com.ihxjie.mondayserver.api.vo.RecordVo">
+        SELECT u.*, attendance_time
+        FROM record as r, `user` as u
+        WHERE r.attendance_id = #{attendanceId} and r.student_id = u.user_id
+    </select>
+    <select id="queryNotYetRecordStudentByAttendanceId" resultType="com.ihxjie.mondayserver.api.entity.User">
+        SELECT u.* FROM student_clazz as sc, `user` as u
+        WHERE sc.student_id NOT IN
+              (SELECT student_id FROM record
+              WHERE record.attendance_id=#{attendanceId})
+          AND sc.student_id = u.user_id AND sc.clazz_id=#{clazzId}
+    </select>
+    <select id="queryVacationStudentByClazzId" resultType="com.ihxjie.mondayserver.api.vo.VacationVo">
+        SELECT u.user_id, u.real_name, u.user_tel, u.user_email, u.user_avatar, v.start_time, v.end_time, v.day_num, v.reason
+        FROM student_clazz AS sc, `user` AS u, vacation AS v
+        WHERE sc.student_id IN (SELECT user_id AS student_id FROM vacation WHERE NOW() BETWEEN start_time AND end_time)
+          AND sc.clazz_id = #{clazzId} AND sc.student_id = u.user_id
+          AND sc.student_id = v.user_id AND NOW() BETWEEN v.start_time AND v.end_time
+    </select>
+    <select id="queryVacationStudent" resultType="com.ihxjie.mondayserver.api.vo.VacationVo">
+        SELECT u.real_name, u.user_tel, u.user_email, u.user_avatar, v.start_time, v.end_time, v.day_num, v.reason
+        FROM student_clazz AS sc, `user` AS u, vacation AS v, attendance AS a
+        WHERE sc.student_id IN
+              (SELECT user_id AS student_id
+              FROM vacation AS v, attendance AS a
+              WHERE a.start_time > v.start_time
+                AND a.end_time &lt; v.end_time AND attendance_id = #{attendanceId})
+          AND sc.clazz_id = a.clazz_id AND sc.student_id = u.user_id
+          AND sc.student_id = v.user_id AND a.attendance_id=#{attendanceId}
+          AND (a.start_time > v.start_time AND a.end_time &lt; v.end_time)
+    </select>
+    <select id="queryVacationStudentCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM student_clazz AS sc, `user` AS u, vacation AS v, attendance AS a
+        WHERE sc.student_id IN
+              (SELECT user_id AS student_id
+               FROM vacation AS v, attendance AS a
+               WHERE a.start_time > v.start_time
+                 AND a.end_time &lt; v.end_time AND attendance_id = #{attendanceId})
+          AND sc.clazz_id = a.clazz_id AND sc.student_id = u.user_id
+          AND sc.student_id = v.user_id AND a.attendance_id=#{attendanceId}
+          AND (a.start_time > v.start_time AND a.end_time &lt; v.end_time)
+    </select>
+    <select id="queryNotYetRecordStudentByRealName" resultType="com.ihxjie.mondayserver.api.entity.User">
+        SELECT u.* FROM student_clazz as sc, `user` as u
+        WHERE sc.student_id NOT IN
+              (SELECT student_id FROM record
+               WHERE record.attendance_id=#{attendanceId})
+          AND sc.student_id = u.user_id AND sc.clazz_id=#{clazzId}
+          AND u.real_name like CONCAT ('%', #{realName}, '%')
+    </select>
+    <select id="queryNotYetRecordStudentByAttendanceIdAndStudentId"
+            resultType="com.ihxjie.mondayserver.api.entity.User">
+        SELECT u.* FROM student_clazz as sc, `user` as u
+        WHERE sc.student_id NOT IN
+              (SELECT student_id FROM record
+               WHERE record.attendance_id=#{attendanceId})
+          AND sc.student_id = u.user_id AND sc.clazz_id=#{clazzId}
+          AND u.user_id = #{studentId}
+    </select>
+    <select id="queryStudentSignInCount" resultType="java.lang.Integer">
+        SELECT COUNT( * ) FROM record
+        WHERE student_id = #{studentId}
+          AND attendance_id IN (SELECT attendance_id FROM attendance WHERE clazz_id = #{clazzId})
+    </select>
+
+
+</mapper>

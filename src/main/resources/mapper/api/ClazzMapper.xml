@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ihxjie.mondayserver.api.mapper.ClazzMapper">
+
+    <select id="queryClasses" resultType="com.ihxjie.mondayserver.api.data.Classes">
+        SELECT tc.clazz_id AS id, clazz_name AS title, clazz_logo AS logo, clazz_description AS description, c.created_at as updatedAt, real_name as teacher
+        FROM `teacher_clazz` as tc, clazz as c, `user` as u
+        WHERE tc.clazz_id = c.clazz_id and tc.teacher_id = #{teacherId} and tc.teacher_id = u.user_id
+    </select>
+
+    <select id="queryStuClazz" resultType="com.ihxjie.mondayserver.api.data.Classes">
+        SELECT tc.clazz_id AS id, clazz_name AS title, clazz_logo AS logo, clazz_description AS description, c.created_at as updatedAt, real_name as teacher
+        FROM `student_clazz` as sc, clazz as c, teacher_clazz as tc, `user` as u
+        WHERE sc.clazz_id = c.clazz_id and sc.student_id = #{teacherId} and sc.clazz_id = tc.clazz_id and tc.teacher_id = u.user_id
+    </select>
+</mapper>

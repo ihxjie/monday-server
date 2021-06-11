@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ihxjie.mondayserver.api.mapper.PushMapper">
+
+    <select id="queryAllByClazzId" resultType="com.ihxjie.mondayserver.api.entity.Push">
+        SELECT p.* FROM student_clazz AS sc, push AS p
+        WHERE clazz_id = #{clazzId} AND sc.student_id = p.user_id
+    </select>
+</mapper>
